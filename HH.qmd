@@ -1,14 +1,20 @@
 ---
-title: "Enriching and Futureproofing the Databases of the  Hungarian Heritage House"
+title: "Enriching and Futureproofing the Databases of the Hungarian Heritage House"
 subtitle: "A short feasibility study and early manuscript for publication (version 0.2.0)"
-output-dir: docs
+project:
+  type: website
+  output-dir: docs
+  
 author:
   - name: "Antal, Dániel"
     orcid: 0000-0001-7513-6760
   - name: "Zagyva, Natália"
     orcid: 0009-0000-3515-8711
   - name: "Mester, Anna Márta"
+    orcid: 0009-0008-2274-8163
+    
 version: "0.2.0"
+
 editor: source
 format: 
    html: 
@@ -24,7 +30,11 @@ format:
     toc-depth: 3
     latex: 
        - lof: true
+
+doi: 10.5281/zenodo.17759777
+
 papersize: A4
+
 bibliography:
   - bib/antal.bib
   - bib/artefacts.bib
@@ -60,6 +70,8 @@ nocite: |
 This document serves as a living document for documenting the Reprex-HH documentation to serve as a basis of the forthcoming joint publication.
 
 This is the version 0.2.0 and it has not been reviewed by _Hagyomanyok Háza_ institutionally, it may contain mispresentation of some HH databases.
+
+DOI: [10.5281/zenodo.17759777](https://doi.org/10.5281/zenodo.17759777); please check for potential later versions before re-using or citing.
 :::
 
 ### Folklore Databases in Hungary
