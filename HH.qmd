@@ -37,6 +37,7 @@ papersize: A4
 
 bibliography:
   - bib/antal.bib
+  - bib/atom.bib
   - bib/artefacts.bib
   - bib/automation.bib
   - bib/datagovernance.bib
@@ -288,7 +289,7 @@ We used the following modelling solutions:
 
 The *National Library of Wales* follows a comparable model in its *Shared National Archival Record Catalogue* (SNARC), where Wikibase operates as a reconciling and multilingual authority layer while traditional archival systems continue to provide core descriptive functions. Our test evaluates whether HH can adopt a similar architectural pattern.
 
-*Access to Memory* (AtoM) is an open-source archival management system designed for day-to-day descriptive work in small and medium-sized heritage institutions. It implements the *International Council on Archives’* legacy standards—primarily ISAD(G) for archival description and ISAAR-CPF for authority records—encoded in the XML format Encoded Archival Description (EAD 2002). This offers a lightweight, well-structured framework for managing fonds, series, file-level descriptions, and associated digital objects. Because AtoM uses plain EAD XML for import and export, it remains highly accessible and easy to integrate with other systems, even if it does not support graph-based representations.
+*Access to Memory* (AtoM) is an open-source archival management system designed for day-to-day descriptive work in small and medium-sized heritage institutions. It implements the *International Council on Archives’* legacy standards—primarily ISAD(G) for archival description and ISAAR-CPF for authority records—encoded in the XML format Encoded Archival Description (EAD 2002). This offers a lightweight, well-structured framework for managing fonds, series, file-level descriptions, and associated digital objects. Because AtoM uses plain EAD XML for import and export, it remains highly accessible and easy to integrate with other systems, even if it does not support graph-based representations. Atom is particularly well-suited to be integrated with Wikibase [@atom_toronto_2022].
 
 Several institutions have shown that AtoM can interoperate effectively with Wikibase. While AtoM provides a practical user interface for archival workflows, Wikibase is inherently better suited for maintaining synchronised authority records, linking to national and international name spaces, and enriching collections with multilingual or contextual metadata. Wikibase also accommodates the graph structures introduced by Records in Contexts (RiC) [@RiC-CM_1_0], which in 2023 superseded ISAD(G), ISAAR-CPF, ISDIAH, and ISDF as the ICA’s conceptual and ontology framework. 
 

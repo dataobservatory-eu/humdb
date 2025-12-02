@@ -37,6 +37,7 @@ The bibliographic references are stored in the `bib/` folder.
 
 If you use Zotero, please accept an invitation to our collection here [Data Observatory](https://www.zotero.org/groups/4760962/data_observatory/).
 
+- `atom.bib`: Bibliography connected to AtoM.
 - `automation.bib`: Bibliography of the automation perspectives part.
 - `datamodels.bib`: Data models referenced and theories of data modelling.
 - `decolonisation.bib`: The idea of making colonial archival material useful in a decolonised world.
