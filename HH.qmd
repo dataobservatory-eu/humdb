@@ -13,7 +13,7 @@ author:
   - name: "Mester, Anna Márta"
     orcid: 0009-0008-2274-8163
     
-version: "0.2.0"
+version: "0.2.1"
 
 editor: source
 format: 
@@ -284,13 +284,22 @@ We used the following modelling solutions:
 
 ### AtoM integration and round-trip validation
 
-*Hagyományok Háza* (HH) aims to migrate its archival descriptions in the Access to Memory system (AtoM). To ensure that the proposed semantic-web workflow is compatible with the planned archival practices, the pilot includes a round-trip interoperability test between AtoM and the _Finno-Ugric Data Sharing Space_ (FUDSS).
+*Hagyományok Háza* (HH) aims to migrate its archival descriptions into the *Access to Memory* (AtoM) system. To ensure that the proposed semantic-web workflow remains compatible with archival practice, the pilot includes a round-trip interoperability test between AtoM and the *Finno-Ugric Data Sharing Space* (FUDSS). In this phase, a small number of AtoM records will be exported in standard archival formats (EAD and EAC-CPF) and imported into the FUDSS Wikibase environment. These items will be modelled using the same pragmatic linked-data patterns applied to the FTI Example Dataset and the Szekler dance music dataset. After modelling and enrichment, the records will be exported back into AtoM-compatible EAD XML for re-ingestion.
 
-In this phase, a small number of AtoM records will be exported in standard archival formats (EAD and EAC-CPF) and imported into the FUDSS Wikibase environment. These items will be modelled using the same pragmatic linked-data patterns applied to the *FTI Example Dataset* and the *Szekler dance music dataset*. After modelling and basic semantic enrichment, the records will be exported back to AtoM-compatible representations.
+The *National Library of Wales* follows a comparable model in its *Shared National Archival Record Catalogue* (SNARC), where Wikibase operates as a reconciling and multilingual authority layer while traditional archival systems continue to provide core descriptive functions. Our test evaluates whether HH can adopt a similar architectural pattern.
 
-This round-trip test allows us to evaluate whether entity identifiers, personal and geographical names, roles, provenance fields, and relationships survive the full cycle of import, modelling, enrichment, and re-export without structural loss or semantic distortion. Success will be demonstrated if a small number of enriched items can be re-ingested into AtoM and remain usable within its archival description workflows.
+*Access to Memory* (AtoM) is an open-source archival management system designed for day-to-day descriptive work in small and medium-sized heritage institutions. It implements the *International Council on Archives’* legacy standards—primarily ISAD(G) for archival description and ISAAR-CPF for authority records—encoded in the XML format Encoded Archival Description (EAD 2002). This offers a lightweight, well-structured framework for managing fonds, series, file-level descriptions, and associated digital objects. Because AtoM uses plain EAD XML for import and export, it remains highly accessible and easy to integrate with other systems, even if it does not support graph-based representations.
 
-The National Library of Wales follows a similar model in its *Shared National Archival Record Catalogue* (SNARC), where Wikibase acts as a reconciling and multilingual authority layer while traditional archival systems continue to provide the core descriptive functions. Our test will assess the feasibility of adopting this architectural pattern at _Hagyományok Háza_.
+Several institutions have shown that AtoM can interoperate effectively with Wikibase. While AtoM provides a practical user interface for archival workflows, Wikibase is inherently better suited for maintaining synchronised authority records, linking to national and international name spaces, and enriching collections with multilingual or contextual metadata. Wikibase also accommodates the graph structures introduced by Records in Contexts (RiC) [@RiC-CM_1_0], which in 2023 superseded ISAD(G), ISAAR-CPF, ISDIAH, and ISDF as the ICA’s conceptual and ontology framework. 
+
+RiC remains backwards-compatible with ISAD(G) while enabling richer semantic relations—such as connecting AtoM authority records to VIAF and national authority files, providing bibliographical or museological context to archival holdings, or linking a specialist archive like HH’s to national repositories.
+
+In this project, we designed a lightweight, reversible pipeline between AtoM and Wikibase. AtoM exports existing descriptions in EAD XML, which are transformed and ingested into Wikibase for authority reconciliation, structural clarification, and multilingual enrichment. The enhanced records can then be exported back into simplified EAD XML suitable for AtoM. This round-trip workflow allows institutions to benefit from Wikibase’s semantic capabilities without replacing AtoM as their operational catalogue.
+
+The most promising use cases for this workflow are:
+
+- maintaining authority records in Wikibase, ensuring they remain synchronised with external vocabularies while AtoM receives the simplified form it can store;
+- large-scale migration of older or heterogeneous databases into Wikibase for cleaning, modelling, and multilingual enrichment, followed by targeted export to EAD XML for incremental import back into AtoM.
 
 ## Modelling pragmatism
 
@@ -533,3 +542,149 @@ This model provides a sustainable bridge between **cultural heritage and researc
 
 ::: {#refs}
 :::
+
+# Annex {.unnumbered}
+
+## A1 AtoM - Wikibase Roundtrip {.unnumbered}
+
+### Archival Standards Relevant to AtoM and Wikibase  {.unnumbered}
+
+#### ISAD(G) and EAD (2002) {.unnumbered}
+*Access to Memory* (AtoM) implements archival descriptions using the International Council on Archives’ legacy standards:
+
+- ISAD(G): General International Standard for Archival Description
+- ISAAR-CPF: Authority records for persons, families, and corporate bodies
+
+These standards are serialised in:
+
+- Encoded Archival Description (EAD 2002) for hierarchical finding aids
+- Encoded Archival Context (EAC-CPF) for authority records
+
+EAD 2002 is lightweight, stable, and easily parsed, but not graph-based.
+
+#### Records in Contexts (RiC-CM / RiC-O 1.0) {.unnumbered}
+In 2023, the ICA released:
+
+- RiC-CM 1.0 (conceptual model)
+- RiC-O 1.0 (ontology)
+
+RiC supersedes ISAD(G), ISAAR-CPF, ISDIAH, and ISDF, providing richer, graph-based representations. It remains backwards-compatible with ISAD(G): every ISAD(G) element maps to an equivalent RiC construct.
+
+Wikibase can implement RiC patterns naturally; AtoM cannot.
+
+### AtoM–Wikibase–AtoM Round-Trip: Core Principles {.unnumbered}
+
+#### Ingest from AtoM {.unnumbered}
+AtoM exports:
+
+- EAD 2002 (archival descriptions)
+- EAC-CPF (authority records)
+
+These files contain hierarchical structure (`c` elements), identifiers (`eadid`, `unitid`), descriptive metadata (`unittitle`, `physdesc`, `scopecontent`), digital objects (`dao`), and names of creators or subjects.
+
+#### Semantic Enrichment in Wikibase {.unnumbered}
+Wikibase supports:
+
+- reconciliation with VIAF, ISNI, ORCID, and national authority files
+- multilingual labels and aliases
+- linking archival descriptions to bibliographic, museum, linguistic, or geographic entities
+- adding contextual information (events, functions, places)
+- provenance and versioning
+
+This step produces a richer graph-based representation than AtoM can store.
+
+#### Export back to AtoM {.unnumbered}
+Enriched records can be exported from Wikibase in simplified EAD 2002, containing:
+
+- titles, identifiers, dates, extents
+- parent–child hierarchy
+- basic descriptive notes
+- creators and subjects
+- digital object references
+
+Graph-rich RiC structures remain in Wikibase; AtoM receives an EAD profile it can ingest.
+
+#### Incremental Ingestion into AtoM {.unnumbered}
+AtoM supports:
+
+- incremental import of individual EAD files
+- adding to existing holdings without overwriting
+- optional replacement when identifiers match
+
+This enables targeted updates of fonds, series, items, and authority records.
+
+
+### Minimal Mapping: ISAD(G) → RiC → Wikibase → EAD (Round-Trip) {.unnumbered}
+
+#### Hierarchy {.unnumbered}
+
+| ISAD(G)        | RiC Equivalent      | Wikibase pattern                        | Back to AtoM (EAD)         |
+|----------------|---------------------|------------------------------------------|-----------------------------|
+| Fonds          | RiC-RecordSet       | Item (instance of “fonds”)               | `<archdesc level="fonds">` |
+| Series         | RiC-RecordSet       | Item (instance of “series”)              | `<c level="series">`       |
+| File           | RiC-Record          | Item (instance of “file”)                | `<c level="file">`         |
+| Item           | RiC-Record          | Item (instance of “item”)                | `<c level="item">`         |
+
+#### Identifiers {.unnumbered}
+
+| ISAD(G) | RiC              | Wikibase                     | Back to EAD        |
+|--------|-------------------|-------------------------------|---------------------|
+| unitid | RiC-Identifier    | Property “AtoM ID”            | `<unitid>`          |
+| eadid  | RiC-Identifier    | Property “EAD ID”             | `<eadid>`           |
+
+#### Agent Data
+
+| AtoM (ISAAR-CPF) | RiC                  | Wikibase                           | Back to EAD/EAC-CPF        |
+|------------------|----------------------|-------------------------------------|-----------------------------|
+| persname         | RiC-Person           | Item linked via “creator”           | `<origination>` or EAC-CPF |
+| corpname         | RiC-CorporateBody    | Item linked via “creator/agent”     | `<origination>`            |
+
+#### Digital Objects {.unnumbered}
+
+| AtoM (EAD)  | RiC-DigitalObject    | Wikibase                          | Back to EAD |
+|-------------|----------------------|------------------------------------|-------------|
+| `<dao>`     | RiC-DigitalObject    | Property “digital object URL”      | `<dao>`     |
+
+#### Notes & Descriptions
+
+| ISAD(G) element | RiC equivalent      | Wikibase                        | Back to EAD         |
+|-----------------|---------------------|----------------------------------|----------------------|
+| physdesc        | RiC-Extent/Carrier  | Property “extent/format”         | `<physdesc>`         |
+| scopecontent    | RiC-ContentType     | Property “scope and content”     | `<scopecontent>`     |
+
+
+### Recommended Use Cases for HH {.unnumbered}
+
+#### Authority Record Synchronisation {.unnumbered}
+Wikibase maintains:
+
+- VIAF / ISNI / ORCID / Nemzeti Névtér links
+- multilingual names and aliases
+- external identifiers
+- provenance and version history
+
+AtoM ingests simplified EAC-CPF records as needed.
+
+####  Migration and Cleaning of Legacy Databases {.unnumbered}
+
+Legacy systems (spreadsheets, SQL dumps) can be transformed into Wikibase items, reconciled and enriched, then exported to EAD for stable long-term storage in AtoM.
+
+#### Cross-domain Contextualisation {.unnumbered}
+Wikibase links archival materials to:
+
+- bibliographic entries
+- museum objects
+- geographic gazetteers
+- linguistic or ethnographic datasets
+- national heritage registries
+
+AtoM receives only the ISAD(G)-compatible distilled output.
+
+
+#### Practical Notes for HH {.unnumbered}
+
+- AtoM remains the operational catalogue; Wikibase provides semantic enrichment.
+- Round-trip EAD export ensures compatibility with existing workflows.
+- RiC-based modelling in Wikibase can grow gradually.
+- Incremental EAD import allows safe updates without reloading the entire archive.
+

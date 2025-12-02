@@ -3,8 +3,6 @@
 **A replication of the Slovak Comprehensive Music Database**
 
 ## Main files
-
-
 `HH.qmd`: This working paper presents an initial feasibility study on 
 how the Hungarian Heritage House’s folklore, folk-music, and 
 narrative-heritage collections can be represented in a multilingual, 
@@ -20,6 +18,12 @@ Wikibase, HDTO, and ECCCH as sustainable foundations for
 modernising HH’s digital heritage infrastructure. View the document 
 [here](https://dataobservatory-eu.github.io/humdb/HH.html), and cite it from 
 with the latest [Zenodo DOI](https://zenodo.org/records/17759777).
+
+**Versions**\
+0.2.0: View the document 
+[here](https://dataobservatory-eu.github.io/humdb/HH.html), and cite it from 
+with the latest [Zenodo DOI](https://zenodo.org/records/17759777)
+0.2.1: Atom integration
 
 ## Images
 
